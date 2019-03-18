@@ -4,7 +4,7 @@ CREATE EXTERNAL DATA SOURCE Rejestr
 WITH
 (
 	TYPE = HADOOP,  
-       LOCATION = 'wasbs://[kontener]@[kontomagazynu].blob.core.windows.net/'
+    LOCATION = 'wasbs://[kontener]@[kontomagazynu].blob.core.windows.net/'
 );
 GO;
 CREATE EXTERNAL FILE FORMAT csv
@@ -30,10 +30,11 @@ CREATE EXTERNAL TABLE [EXT].[RejestrUmow]
 [Opis] [nvarchar](200) NOT NULL,
 [KwotaUmowy] [float] NOT NULL
 ) 
-WITH (
-	LOCATION='/',   
-   	DATA_SOURCE = Rejestr,  
-   	FILE_FORMAT = CSV
+WITH 
+	(
+		LOCATION='/',   
+		DATA_SOURCE = Rejestr,  
+		FILE_FORMAT = CSV
 	);  
 
 GO;
