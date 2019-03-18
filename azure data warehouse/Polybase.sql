@@ -1,23 +1,22 @@
 CREATE SCHEMA EXT;
 GO;
-	CREATE EXTERNAL DATA SOURCE Rejestr
-	WITH
-	(
+CREATE EXTERNAL DATA SOURCE Rejestr
+WITH
+(
 	TYPE = HADOOP,  
-       LOCATION = 		'wasbs://[kontener]@[kontomagazynu].blob.core.windows.net/'
-	);
+       LOCATION = 'wasbs://[kontener]@[kontomagazynu].blob.core.windows.net/'
+);
 GO;
 CREATE EXTERNAL FILE FORMAT csv
-
-	WITH 
-	(   
+WITH 
+(   
     FORMAT_TYPE = DELIMITEDTEXT,
     FORMAT_OPTIONS
     (   
          FIELD_TERMINATOR = ';',
          FIRST_ROW = 2,
 		 Encoding = 'UTF8'
-    )
+	)
 );	
 GO;
 
