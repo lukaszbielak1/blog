@@ -1,5 +1,6 @@
 CREATE SCHEMA EXT;
 GO;
+
 CREATE EXTERNAL DATA SOURCE Rejestr
 WITH
 (
@@ -7,6 +8,7 @@ WITH
     LOCATION = 'wasbs://[kontener]@[kontomagazynu].blob.core.windows.net/'
 );
 GO;
+
 CREATE EXTERNAL FILE FORMAT csv
 WITH 
 (   
@@ -38,6 +40,7 @@ WITH
 	);  
 
 GO;
+
 CREATE TABLE [dbo].[RejestrUmow]
 WITH
 ( 
@@ -46,6 +49,5 @@ WITH
 )
 AS
 SELECT * FROM [ext].[RejestrUmow]
-
 GO;
 
