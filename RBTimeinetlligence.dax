@@ -1,0 +1,23 @@
+﻿DEFINE
+    MEASURE 'Fact'[# of Customers LY RL] =
+        VAR MaxYear =
+            MAX ( 'Date'[YearPeriod] )
+        RETURN
+            CALCULATE (
+                DISTINCTCOUNT ( 'Fact'[Customer Key]),
+                KEEPFILTERS ( 'Fact'[YearPeriod] < MaxYear ),
+                USERELATIONSHIP ( 'Date'[YearPeriodLY], 'Fact'[YearPeriod] )
+            )
+    MEASURE 'Fact'[# of Customers LY] =
+        CALCULATE (
+            DISTINCTCOUNT ( 'Fact'[Customer Key]),
+            SAMEPERIODLASTYEAR ( 'Date'[Date] )
+        )
+EVALUATE
+SUMMARIZECOLUMNS (
+    'Date'[YearPeriod],
+    "# of Customers LY", [# of Customers LY],
+    "# of Customers LY RL", [# of Customers LY RL]
+   -- "# of Customers", [# of Customers]
+)
+ORDER BY 'Date'[YearPeriod]
