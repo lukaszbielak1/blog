@@ -1,0 +1,47 @@
+<#
+
+.DESCRIPTION
+This runbook starts or stops AAS instance
+
+.PARAMETERS
+  ResourceGroupName: Name of the resource group where AAS instance exists
+  AnalysisServerName: Name of the AAS instance
+  ActionType: Start or Stop
+  
+.NOTES
+    Author: Łukasz Bielak (cloudbi.pl)
+#>
+
+param
+(
+    [Parameter (Mandatory = $true)]
+    [String] $ResourceGroupName,
+    [Parameter (Mandatory = $true)]
+    [String] $AnalysisServerName,
+    [Parameter (Mandatory = $true)]
+    [String] $ActionType
+)
+
+$connection = Get-AutomationConnection -Name AzureRunAsConnection
+
+while(!($connectionResult) -and ($logonAttempt -le 10))
+{
+    $LogonAttempt++
+    # Logging in to Azure...
+    $connectionResult = Connect-AzAccount `
+                            -ServicePrincipal `
+                            -Tenant $connection.TenantID `
+                            -ApplicationId $connection.ApplicationID `
+                            -CertificateThumbprint $connection.CertificateThumbprint
+
+    Start-Sleep -Seconds 30
+}       
+
+if ($ActionType -eq "Start")
+{
+  Resume-AzAnalysisServicesServer -Name $AnalysisServerName -ResourceGroupName $ResourceGroupName  
+}
+elseif ($ActionType -eq "Stop")
+{
+    Suspend-AzAnalysisServicesServer -Name $AnalysisServerName -ResourceGroupName $ResourceGroupName 
+}
