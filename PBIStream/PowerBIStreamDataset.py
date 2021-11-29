@@ -1,7 +1,6 @@
 # Databricks notebook source
 import pyspark.sql
 import time
-import requests
 from datetime import datetime
 import requests
 import json
